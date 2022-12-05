@@ -1,2 +1,2 @@
 FROM php:7.2-apache
-COPY src/ /var/www/html/
+COPY static-data/ /var/www/html/
