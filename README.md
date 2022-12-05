@@ -42,7 +42,8 @@ The third objective is to practice our usage of **Docker**. All the components o
 * You are able to explain what you do in the Dockerfile.
 * You are able to show where the apache config files are located (in a running container).
 * You have **documented** your configuration in your report.
-
+Were is appache config :
+root@e069e79246bc:/etc/apache2/sites-available# cat 000-default.conf (000-default could be the site name)
 ## Step 2: Dynamic HTTP server with express.js
 
 ### Webcasts
