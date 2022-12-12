@@ -30,4 +30,13 @@ services:
     scale: 3
     labels:
       - "traefik.http.routers.web-static.rule=PathPrefix(`/`)"
+  web-dynamic:
+    build: express-image/.
+    scale: 3
+    labels:
+      - "traefik.http.routers.web-dynamic.rule=PathPrefix(`/api`)"
+      - "traefik.http.middlewares.middle-dyn.stripprefix.prefixes=/api"
+      - "traefik.http.routers.web-dynamic.middlewares=middle-dyn"
+
+      - "traefik.http.services.web-dynamic.loadbalancer.server.port=3000"
       
