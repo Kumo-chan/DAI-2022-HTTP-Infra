@@ -103,7 +103,7 @@ The steps to follow for this section are thus:
 * You are able to explain why a reverse proxy is useful to improve the security of the infrastructure.
 * You have **documented** your configuration in your report.
 
-
+To check loadbalancer you can test with whoiam
 ## Step 3a: Dynamic cluster management
 
 The goal of this section is to allow Traefik to dynamically detect several instances of the (dynamic/static) Web servers. You may have already done this in the previous step 3.
