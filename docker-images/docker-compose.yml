@@ -36,7 +36,7 @@ services:
     build: appach-php-image/.
     scale: 3
     labels:
-      - "traefik.http.services.whoami-sticky.loadbalancer.sticky.cookie.name=sticky_session_static_web"
+      - "traefik.http.services.web-static.loadbalancer.sticky.cookie.name=sticky_session_static_web"
       - "traefik.http.routers.web-static.rule=PathPrefix(`/`)"
   web-dynamic:
     build: express-image/.
