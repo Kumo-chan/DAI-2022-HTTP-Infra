@@ -14,11 +14,12 @@ app.listen(3000, function () {
 
 function generateAnimals() {
     var numberOfAnimals = chance.integer({
-        min: 0,
+        min: 1,
         max: 10
     });
 
     console.log(numberOfAnimals);
+
     var animals = [];
 
     var types = ["ocean", "desert", "grassland", "forest", "farm", "pet", "zoo"];
@@ -32,9 +33,15 @@ function generateAnimals() {
             max: 100
         });
 
+        var age = chance.age({
+            min: 0,
+            max: 100
+        });
+
         animals.push({
             type: randomType,
             animal: chance.animal({type: randomType}),
+            age: age,
         });
 
     }
