@@ -13,12 +13,19 @@ services:
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
-  whoami:
+  whoami-robin:
     # A container that exposes an API to show its IP address
     image: traefik/whoami
     scale: 3  
     labels:
-      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
+      - "traefik.http.routers.whoami-robin.rule=Host(`whoami-robin.docker.localhost`)"
+  whoami-sticky:
+    # A container that exposes an API to show its IP address
+    image: traefik/whoami
+    scale: 3
+    labels:
+      - "traefik.http.services.whoami-sticky.loadbalancer.sticky.cookie.name=sticky_session_demo"
+      - "traefik.http.routers.whoami-sticky.rule=Host(`whoami-sticky.docker.localhost`)"
   redis:
     image: "redis:alpine"
   test-app:
@@ -29,6 +36,7 @@ services:
     build: appach-php-image/.
     scale: 3
     labels:
+      - "traefik.http.services.whoami-sticky.loadbalancer.sticky.cookie.name=sticky_session_static_web"
       - "traefik.http.routers.web-static.rule=PathPrefix(`/`)"
   web-dynamic:
     build: express-image/.
@@ -37,6 +45,5 @@ services:
       - "traefik.http.routers.web-dynamic.rule=PathPrefix(`/api`)"
       - "traefik.http.middlewares.middle-dyn.stripprefix.prefixes=/api"
       - "traefik.http.routers.web-dynamic.middlewares=middle-dyn"
-
       - "traefik.http.services.web-dynamic.loadbalancer.server.port=3000"
       
