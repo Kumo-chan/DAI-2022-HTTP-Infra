@@ -26,6 +26,11 @@ function generateAnimals() {
     for (var i = 0; i < numberOfAnimals; i++) {
 
         var randomType = types[Math.floor(Math.random()*types.length)];
+        
+        var age = chance.age({
+            min: 0,
+            max: 100
+        });
 
         animals.push({
             type: randomType,
