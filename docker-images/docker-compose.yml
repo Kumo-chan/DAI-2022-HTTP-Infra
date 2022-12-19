@@ -24,7 +24,7 @@ services:
     image: traefik/whoami
     scale: 3
     labels:
-      - "traefik.http.services.whoami-sticky.loadbalancer.sticky.cookie={}"
+      - "traefik.http.services.whoami-sticky.loadbalancer.sticky.cookie.name=sticky_session_cookie"
       - "traefik.http.routers.whoami-sticky.rule=Host(`whoami-sticky.docker.localhost`)"
   redis:
     image: "redis:alpine"
