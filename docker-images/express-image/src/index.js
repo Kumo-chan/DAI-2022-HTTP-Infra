@@ -14,7 +14,7 @@ app.listen(3000, function () {
 
 function generateAnimals() {
     var numberOfAnimals = chance.integer({
-        min: 0,
+        min: 1,
         max: 10
     });
 
@@ -35,6 +35,7 @@ function generateAnimals() {
         animals.push({
             type: randomType,
             animal: chance.animal({type: randomType}),
+            age: age,
         });
 
     }
