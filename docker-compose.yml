@@ -15,12 +15,14 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
   whoami-robin:
     # A container that exposes an API to show its IP address
+    # Use roundrbin session (server IP change each request)
     image: traefik/whoami
     scale: 3  
     labels:
       - "traefik.http.routers.whoami-robin.rule=Host(`whoami-robin.docker.localhost`)"
   whoami-sticky:
     # A container that exposes an API to show its IP address
+    # Use sticky session (server IP doesn't change + cookie session)
     image: traefik/whoami
     scale: 3
     labels:
@@ -29,17 +31,20 @@ services:
   redis:
     image: "redis:alpine"
   test-app:
-    build: ../composetest/.
+    # A container to appli another rule policy
+    build: composetest/.
     labels:
       - "traefik.http.routers.test-app.rule=Host(`tests-pages.docker.localhost`)"
   web-static:
-    build: appach-php-image/.
+    # A static web image. Use sticky session
+    build: docker-images/appach-php-image/.
     scale: 3
     labels:
       - "traefik.http.services.web-static.loadbalancer.sticky.cookie.name=sticky_session_static_web"
       - "traefik.http.routers.web-static.rule=PathPrefix(`/`)"
   web-dynamic:
-    build: express-image/.
+    # A dynamic web image. call with /api
+    build: docker-images/express-image/.
     scale: 3
     labels:
       - "traefik.http.routers.web-dynamic.rule=PathPrefix(`/api`)"
