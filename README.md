@@ -26,14 +26,10 @@ The third objective is to practice our usage of **Docker**. All the components o
 
 ## Step 1: Static HTTP server with apache httpd
 
-### Webcasts
-
-* [Labo HTTP (1): Serveur apache httpd "dockerisé" servant du contenu statique](https://www.youtube.com/watch?v=XFO4OmcfI3U)
-
-### Note
-
-* You will probably have trouble to use PHP 8 with Apache, we recommend using PHP 7 instead.
-
+To create a static web page we used :
+- A docker image who import php:7.2-apache
+- Copy data from [docker-images/appach-php-image/static-data](docker-images/appach-php-image/static-data)
+- Static data use a template gotten from 
 ### Acceptance criteria
 
 * You have a GitHub repo with everything needed to build the Docker image.
@@ -43,6 +39,7 @@ The third objective is to practice our usage of **Docker**. All the components o
 * You are able to show where the apache config files are located (in a running container).
 * You have **documented** your configuration in your report.
 Were is appache config :
+>
 root@e069e79246bc:/etc/apache2/sites-available# cat 000-default.conf (000-default could be the site name)
 ## Step 2: Dynamic HTTP server with express.js
 
@@ -69,6 +66,7 @@ The goal of this step is to use Docker compose to deploy a first version of the 
 * You will need to install Docker compose on your machine. You'll find the instructions [on this link](https://docs.docker.com/compose/).
 * You will need to write a `docker-compose.yml` file. To do this, read the [introduction](https://docs.docker.com/compose/features-uses/), then have a look at this [tutorial](https://docs.docker.com/compose/gettingstarted/). They should provide the information you need to write your docker-compose file.
 
+[Link to old version docker compose](https://github.com/Kumo-chan/DAI-2022-HTTP-Infra/commit/3553c34d092ef73ef7049cb2ed79b0c396fd040f)
 ### Acceptance criteria
 
 * You have added a `docker-compose.yml` file to your GitHub repo.
