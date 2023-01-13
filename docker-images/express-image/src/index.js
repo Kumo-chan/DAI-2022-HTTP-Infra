@@ -33,11 +33,6 @@ function generateAnimals() {
             max: 100
         });
 
-        var age = chance.age({
-            min: 0,
-            max: 100
-        });
-
         animals.push({
             type: randomType,
             animal: chance.animal({type: randomType}),
