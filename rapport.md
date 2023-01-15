@@ -90,6 +90,45 @@ animals.push({type: randomType,animal: chance.animal({type: randomType}),age: ag
 console.log(animals);
 return animals;
 ```
+# Step 3: Build project with Docker-compose
+With docker compose, it is possible to build multiple images easily. We created a (docker compose file)[docker-compose.yml] to create at the same time both our static image and the dynamic one. We just have to specify were is the image and eventually a port.
+
+## docker-compose.yml
+
+Here is an extract of the file:
+```
+version: "3.9"
+services:
+  web-static:
+    port:8080
+    build: appach-php-image/.
+  web-dynamic:
+    build: express-image/.
+    port:8081
+```
+The service name is an identifier, it could be anything.
+
+# Step 3 Bis Treafik
+Treafik is a reverse proxy, something able to reroute request to a specific server. In our case, we use it to imporbe our scalability. With treafik, we can have for example 3 time the same image, with a loadbalancer to route request. 
+
+To correctly use the routing process, everything from root is directe to static image.
+
+And wverything under api is rooted to our dynamic image.
+This is done via:
+```
+ "traefik.http.routers.web-static.rule=PathPrefix(`/`)"
+```
+For the static server.
+
+For the dynamic one, there is more to do:
+```
+- "traefik.http.routers.web-dynamic.rule=PathPrefix(`/api`)"
+- "traefik.http.middlewares.middle-dyn.stripprefix.prefixes=/api"
+- "traefik.http.routers.web-dynamic.middlewares=middle-dyn"
+- "traefik.http.services.web-dynamic.loadbalancer.server.port=3000"
+```
+After specifying the path, we also add a middleware who is responsible to strip /api when effectivly giving the request to our dynmaic page.
+
 
 # Step 4: AJAX requests with JQuery
 The goal of this step is to implement our API on our static web site in order to display animals every second. 
@@ -117,6 +156,15 @@ Then we display it using the <p> tag:
 ```html
 <p id="api-animals"></p>
 ```
+
+# Step 5 Loadbalancing and sessions
+There is 2 type of routing: round-robin and sticky-session.
+
+We decied to put our static page with sticky session and our dynamic one with round-robin (default)
+To showcase that this is working we have done 2 things:
+
+We created 2 images whoami, one with sticky session and one without. While refreshing those pages, we can see that the one with sticky session keep the same IP unless we delete the cookie.
+The second way to check is while using docker-compose up (whitout -d option). In the terminal we are able to see who has gotten a request. In the case of sticky session it stays the same.
 
 # Step 6: Management UI
 For this part, we decided to use the portainer application. Indeed, portainer is a container manager.
